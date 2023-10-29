@@ -11,6 +11,6 @@ public class Ghost : Enemy
     }
     public override void Attack()
     {
-        // Attack logic for Ghost
+        Debug.Log("Attacking!");
     }
 }
