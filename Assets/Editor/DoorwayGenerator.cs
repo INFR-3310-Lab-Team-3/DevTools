@@ -7,6 +7,7 @@ public class DoorwayGenerator : EditorWindow
 {
     private GameObject wallToChange;
     private GameObject door;
+    private float doorX = 0;
     private Vector3 doorSize = Vector3.zero;
     private Vector3 doorPosition = Vector3.zero;
 
@@ -21,14 +22,28 @@ public class DoorwayGenerator : EditorWindow
 
         wallToChange = Selection.activeGameObject;
 
-        doorSize = EditorGUILayout.Vector2Field("Door Size", doorSize);
-        doorPosition = EditorGUILayout.Vector2Field("Door Position", doorPosition);
-
-        if (GUILayout.Button("Modify Wall"))
+        if (wallToChange != null)
         {
-            if (wallToChange != null) ModifyWall();
-            else Debug.LogWarning("Please Select a wall first");
+            GUILayout.Label("Max Door X: " + wallToChange.transform.localScale.x, EditorStyles.label);
+            GUILayout.Label("Max Door Y: " + wallToChange.transform.localScale.y, EditorStyles.label);
+            doorSize = EditorGUILayout.Vector2Field("Door Size", doorSize);
+            if (doorSize.x > wallToChange.transform.localScale.x) doorSize.x = wallToChange.transform.localScale.x;
+            if (doorSize.x < 0) doorSize.x = 0;
+            if (doorSize.y > wallToChange.transform.localScale.y) doorSize.y = wallToChange.transform.localScale.y;
+            if (doorSize.y < 0) doorSize.y = 0;
+            ///
+            GUILayout.Label("Max X pos: " + ((wallToChange.transform.localScale.x * 0.5f) - (doorSize.x * 0.5f)), EditorStyles.label);
+            GUILayout.Label("Min X pos: " + (-(wallToChange.transform.localScale.x * 0.5f) + (doorSize.x * 0.5f)), EditorStyles.label);
+            doorX = EditorGUILayout.FloatField("Door X Position", doorX);
+            if (doorX > ((wallToChange.transform.localScale.x * 0.5f) - (doorSize.x * 0.5f))) doorX = ((wallToChange.transform.localScale.x * 0.5f) - (doorSize.x * 0.5f));
+            if (doorX < (-(wallToChange.transform.localScale.x * 0.5f) + (doorSize.x * 0.5f))) doorX = (-(wallToChange.transform.localScale.x * 0.5f) + (doorSize.x * 0.5f));
+
+            if (GUILayout.Button("Modify Wall"))
+            {
+                ModifyWall();
+            }
         }
+        else GUILayout.Label("Please Select a wall first", EditorStyles.label);
     }
     /// <summary>
     /// doorPos: -(wallScale.x - (doorScale.x * 0.5f) To (wallScale.x - (doorScale.x * 0.5f), doorScale.y * 0.5f, 0
@@ -51,6 +66,7 @@ public class DoorwayGenerator : EditorWindow
         newWall.name = "Wall";
 
         // handle door constraints
+        doorPosition.x = doorX;
         doorPosition.y = (wallToChange.transform.localScale.y * -0.5f) + (doorSize.y * 0.5f);
         doorPosition.z = 0f;
         doorSize.z = wallToChange.transform.localScale.z * 0.5f;
