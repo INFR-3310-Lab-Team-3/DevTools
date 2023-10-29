@@ -19,25 +19,32 @@ public class AutoBuild : EditorWindow
     }
     private void OnGUI()
     {
-        GUILayout.Label("Building Generator", EditorStyles.boldLabel);
+        GUILayout.Label("Building Generator", EditorStyles.whiteLargeLabel);
 
-        numRooms = EditorGUILayout.IntField("NumRooms", numRooms);
-        wallThickness = EditorGUILayout.FloatField("WallThickness", wallThickness);
-        wallHeight = EditorGUILayout.FloatField("WallHeight", wallHeight);
+        wallThickness = EditorGUILayout.FloatField("Wall Thickness", wallThickness);
 
+        wallHeight = EditorGUILayout.FloatField("Wall Height", wallHeight);
+
+        numRooms = EditorGUILayout.IntField("Number of Rooms", numRooms);
         if (numRooms > roomSize.Length)
         {
             roomSize = new Vector3[numRooms];
         }
         for (int i = 0; i < numRooms; i++)
         {
+            roomSize[i].y = wallHeight;
             roomSize[i] = EditorGUILayout.Vector3Field("Room " + i + " Size", roomSize[i]);
         }
 
+
+        GUI.backgroundColor = Color.green;
         if (GUILayout.Button("Generate"))
         {
             GenerateBuilding();
         }
+
+
+        GUI.backgroundColor = Color.red;
         if (GUILayout.Button("Delete Last Building"))
         {
             DeleteLast();
