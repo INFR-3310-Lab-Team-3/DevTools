@@ -69,12 +69,21 @@ public class AutoBuild : EditorWindow
             GenerateRoom(roomSize[i], empty.transform, i);
         }
     }
-    void CreateCube(Vector3 position, Vector3 size, Transform p)
+    void CreateCube(string name, Vector3 position, Vector3 size, Transform p)
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.transform.position = position;
         cube.transform.localScale = size;
         cube.transform.parent = p;
+    }
+    void CreateCube(string name, Vector3 position, Vector3 size, Quaternion rotation, Transform p)
+    {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.position = position;
+        cube.transform.localScale = size;
+        cube.transform.rotation = rotation;
+        cube.transform.parent = p;
+        cube.name = name;
     }
     void GenerateRoom(Vector3 size, Transform p, int i)
     {
@@ -82,14 +91,14 @@ public class AutoBuild : EditorWindow
         empty.transform.parent = p;
         empty.name = "Room " + i;
         // Floor
-        CreateCube(Vector3.zero, new Vector3(size.x, wallThickness, size.z), empty.transform);
+        CreateCube("Floor", Vector3.zero, new Vector3(size.x, wallThickness, size.z), empty.transform);
         // Walls
-        CreateCube(new Vector3(0, wallHeight / 2, size.z / 2), new Vector3(size.x, wallHeight, wallThickness), empty.transform); // Front wall
-        CreateCube(new Vector3(0, wallHeight / 2, -size.z / 2), new Vector3(size.x, wallHeight, wallThickness), empty.transform); // Back wall
-        CreateCube(new Vector3(size.x / 2, wallHeight / 2, 0), new Vector3(wallThickness, wallHeight, size.z), empty.transform); // Right wall
-        CreateCube(new Vector3(-size.x / 2, wallHeight / 2, 0), new Vector3(wallThickness, wallHeight, size.z), empty.transform); // Left wall
+        CreateCube("Front Wall", new Vector3(0, wallHeight / 2, size.z / 2), new Vector3(size.x, wallHeight, wallThickness), empty.transform); // Front wall
+        CreateCube("Back Wall", new Vector3(0, wallHeight / 2, -size.z / 2), new Vector3(size.x, wallHeight, wallThickness), empty.transform); // Back wall
+        CreateCube("Right Wall", new Vector3(size.x / 2, wallHeight / 2, 0), new Vector3(size.z, wallHeight, wallThickness), Quaternion.Euler(0f, 90f, 0f), empty.transform); // Right wall
+        CreateCube("Left Wall", new Vector3(-size.x / 2, wallHeight / 2, 0), new Vector3(size.z, wallHeight, wallThickness), Quaternion.Euler(0f, 90f, 0f), empty.transform); // Left wall
         // Roof
-        CreateCube(new Vector3(0, wallHeight, 0), new Vector3(size.x, wallThickness, size.z), empty.transform);
+        CreateCube("Roof", new Vector3(0, wallHeight, 0), new Vector3(size.x, wallThickness, size.z), empty.transform);
     }
     void DeleteLast()
     {

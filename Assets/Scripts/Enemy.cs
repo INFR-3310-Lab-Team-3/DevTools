@@ -4,14 +4,15 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [SerializeField] protected float damage;
     protected Rigidbody rb;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-    public abstract void Attack();
+    protected abstract void Attack();
 
-    public void Move()
+    protected void Move()
     {
         rb.AddForce(transform.forward);
     }

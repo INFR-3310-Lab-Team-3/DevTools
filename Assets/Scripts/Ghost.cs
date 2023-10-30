@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Ghost : Enemy
 {
+    [SerializeField] private float wanderSpeed;
+    [SerializeField] private float chaseSpeed;
     private void Update()
     {
         transform.forward = Vector3.Lerp(transform.forward, new Vector3(Random.Range(-8f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 8f)).normalized, 6f * Time.deltaTime);
         Move();
     }
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log("Attacking!");
     }
