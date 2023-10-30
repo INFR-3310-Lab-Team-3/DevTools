@@ -8,8 +8,8 @@ public class Turret : MonoBehaviour
 {
     public Transform target; // The target to aim at
     public Transform gunBarrel; // The point where projectiles are fired from.
-    public float rotationSpeed = 5.0f;
-    public float fireRate = 1.0f;
+    private float rotationSpeed = 5.0f;
+    private float fireRate = 1.0f;
     public GameObject projectilePrefab; // Prefab of the projectile to be fired.
     public GameObject altProjectile;
     private bool mainFire =true;
@@ -59,11 +59,11 @@ public class Turret : MonoBehaviour
                 projectile = Instantiate(altProjectile, gunBarrel.position, gunBarrel.rotation) ;
             }
 
-            // Add force to the projectile to make it move in the forward direction.
+            // Add force to the projectile to make it shoot out of barrel.
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(gunBarrel.forward * 20f, ForceMode.Impulse);
+                rb.AddForce(gunBarrel.up * 5f, ForceMode.Impulse);
             }
         }
     }
