@@ -12,8 +12,8 @@ public abstract class Enemy : MonoBehaviour
     }
     protected abstract void Attack();
 
-    protected void Move()
+    protected void Move(float speed)
     {
-        rb.AddForce(transform.forward);
+        rb.AddForce(transform.forward * speed);
     }
 }

@@ -62,6 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f450e1a9b3f131e49bbef219fb5d16be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  wanderSpeed: 0.1
+  chaseSpeed: 0
 --- !u!1 &5071571428647081194
 GameObject:
   m_ObjectHideFlags: 0

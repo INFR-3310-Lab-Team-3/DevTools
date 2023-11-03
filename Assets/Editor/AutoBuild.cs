@@ -5,15 +5,15 @@ using UnityEditor;
 
 public class AutoBuild : EditorWindow
 {
+    private int numWallsInRoom;
     private float wallThickness = 0.25f;
     private float wallHeight = 4f;
-    private int numRooms = 0;
-    private Vector3[] roomSize = new Vector3[0];
+    private float roomSize = 5f;
 
-    private GameObject[] buildings = new GameObject[0];
+    private List<GameObject> rooms = new List<GameObject>();
 
     [MenuItem("Window/Building Generator")]
-    public static void ShowWidow()
+    public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(AutoBuild));
     }
@@ -25,92 +25,81 @@ public class AutoBuild : EditorWindow
 
         wallHeight = EditorGUILayout.FloatField("Wall Height", wallHeight);
 
-        numRooms = EditorGUILayout.IntField("Number of Rooms", numRooms);
-        if (numRooms > roomSize.Length)
-        {
-            roomSize = new Vector3[numRooms];
-        }
-        for (int i = 0; i < numRooms; i++)
-        {
-            roomSize[i].y = wallHeight;
-            roomSize[i] = EditorGUILayout.Vector3Field("Room " + i + " Size", roomSize[i]);
-        }
+        roomSize = EditorGUILayout.FloatField("Room Size", roomSize);
 
+        numWallsInRoom = EditorGUILayout.IntField("Num walls in the room", numWallsInRoom);
+        if (numWallsInRoom < 3) numWallsInRoom = 3;
 
         GUI.backgroundColor = Color.green;
-        if (GUILayout.Button("Generate"))
+        if (GUILayout.Button("Generate Room"))
         {
-            GenerateBuilding();
+            GenerateRoom();
         }
-
-
         GUI.backgroundColor = Color.red;
-        if (GUILayout.Button("Delete Last Building"))
+        if (GUILayout.Button("Delete Last Room"))
         {
             DeleteLast();
         }
     }
-    void GenerateBuilding()
+    void GenerateRoom()
     {
-        GameObject empty = new();
-        GameObject[] temp = buildings;
-        buildings = new GameObject[buildings.Length + 1];
-        for (int i = 0; i < temp.Length; i++)
-        {
-            buildings[i] = temp[i];
-        }
-        buildings[^1] = empty;
+        // make the Room
+        GameObject room = new GameObject("Room " + (rooms.Count + 1)); // Creating GameObject with name
+        room.transform.position = 0.5f * wallHeight * Vector3.up;
+        Room_AutoBuild r = room.AddComponent<Room_AutoBuild>();
+        rooms.Add(room);
 
-        empty.name = "Building " + (buildings.Length - 1);
-
-        for (int i = 0; i < roomSize.Length; i++)
+        float angleStep = 360f / numWallsInRoom;
+        // make the walls
+        for (int i = 0; i < numWallsInRoom; i++)
         {
-            // Generate room
-            GenerateRoom(roomSize[i], empty.transform, i);
+            GameObject wall = CreateWall("wall_" + r.walls.Count, room.transform);
+            GameObject Target = CreateTarget("target_" + r.wallTargets.Count, room.transform);
+
+            r.walls.Add(wall); // Add the wall to the current room's wall list
+            r.wallTargets.Add(Target);
+
+            float angle = i * angleStep * Mathf.Deg2Rad; // Convert angle to radians for trigonometric functions
+
+            // Calculate the position around the circle
+            Vector3 position = new Vector3(
+                Mathf.Cos(angle) * roomSize,
+                0f, // Assuming you want the objects to be at the same height
+                Mathf.Sin(angle) * roomSize
+            );
+
+            // Place the child at the calculated position
+            Target.transform.localPosition = position;
         }
     }
-    void CreateCube(string name, Vector3 position, Vector3 size, Transform p)
+    GameObject CreateWall(string name, Transform p)
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.position = position;
-        cube.transform.localScale = size;
-        cube.transform.parent = p;
+        GameObject w = new();
+        cube.transform.parent = w.transform;
+        cube.transform.localPosition = Vector3.zero;
+        w.transform.localScale = new Vector3(roomSize, wallHeight, wallThickness);
+        w.transform.position = p.transform.position;
+        w.name = name;
+        w.transform.parent = p.transform;
+        return w;
     }
-    void CreateCube(string name, Vector3 position, Vector3 size, Quaternion rotation, Transform p)
+    GameObject CreateTarget(string name, Transform p)
     {
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.position = position;
-        cube.transform.localScale = size;
-        cube.transform.rotation = rotation;
-        cube.transform.parent = p;
-        cube.name = name;
-    }
-    void GenerateRoom(Vector3 size, Transform p, int i)
-    {
-        GameObject empty = new();
-        empty.transform.parent = p;
-        empty.name = "Room " + i;
-        // Floor
-        CreateCube("Floor", Vector3.zero, new Vector3(size.x, wallThickness, size.z), empty.transform);
-        // Walls
-        CreateCube("Front Wall", new Vector3(0, wallHeight / 2, size.z / 2), new Vector3(size.x, wallHeight, wallThickness), empty.transform); // Front wall
-        CreateCube("Back Wall", new Vector3(0, wallHeight / 2, -size.z / 2), new Vector3(size.x, wallHeight, wallThickness), empty.transform); // Back wall
-        CreateCube("Right Wall", new Vector3(size.x / 2, wallHeight / 2, 0), new Vector3(size.z, wallHeight, wallThickness), Quaternion.Euler(0f, 90f, 0f), empty.transform); // Right wall
-        CreateCube("Left Wall", new Vector3(-size.x / 2, wallHeight / 2, 0), new Vector3(size.z, wallHeight, wallThickness), Quaternion.Euler(0f, 90f, 0f), empty.transform); // Left wall
-        // Roof
-        CreateCube("Roof", new Vector3(0, wallHeight, 0), new Vector3(size.x, wallThickness, size.z), empty.transform);
+        GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        cylinder.transform.localScale = new Vector3(wallThickness, wallHeight * 0.5f, wallThickness);
+        cylinder.transform.position = p.transform.position;
+        cylinder.transform.parent = p;
+        cylinder.name = name;
+        return cylinder;
     }
     void DeleteLast()
     {
-        if (buildings.Length > 0)
+        if (rooms.Count > 0)
         {
-            DestroyImmediate(buildings[^1]);
-            GameObject[] temp = buildings;
-            buildings = new GameObject[buildings.Length - 1];
-            for (int i = 0; i < temp.Length - 1; i++)
-            {
-                buildings[i] = temp[i];
-            }
+            GameObject temp = rooms[^1];
+            rooms.Remove(temp);
+            DestroyImmediate(temp);
         }
     }
 }
