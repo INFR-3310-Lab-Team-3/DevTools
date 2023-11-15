@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class AutoBuild : EditorWindow
 {
-    private int numWallsInRoom;
+    private int numWallsInRoom; 
     private float wallThickness = 0.25f;
     private float wallHeight = 4f;
     private float roomSize = 5f;
