@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ObjectiveManager : Singleton_template<ObjectiveManager>
 {
-    [SerializeField] private List<Objective> objectives;
+    [SerializeField] public List<Objective> objectives;
 
-    [SerializeField] private GameObject reward;
+    [SerializeField] public GameObject reward;
 
     private void Start()
     {
         reward.SetActive(false);
-        for (int i = 1; i < objectives.Count-1; i++)
+        for (int i = 1; i < objectives.Count; i++)
         {
             objectives[i].gameObject.SetActive(false);
         }
@@ -21,8 +21,8 @@ public class ObjectiveManager : Singleton_template<ObjectiveManager>
     public void UnregisterObjective(Objective o)
     {
         objectives.Remove(o);
-        reward.SetActive(objectives.Count == 0);
-        objectives[0].gameObject.SetActive(objectives.Count != 0);
+        if (objectives.Count == 0) reward.SetActive(true);
+        else objectives[0].gameObject.SetActive(true);
     }
 
     public void RegisterObjective(Objective o)
