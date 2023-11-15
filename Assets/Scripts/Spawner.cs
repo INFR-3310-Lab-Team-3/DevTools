@@ -22,5 +22,6 @@ public class Spawner : MonoBehaviour
     {
         Enemy enemy = Instantiate(Prefab);
         enemy.transform.position = position;
+        manager.Instance().enemies.Add(enemy);
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6642316393918553726}
   - component: {fileID: 8869346421299312310}
   - component: {fileID: 2455045078672645999}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  speed: 1
+  speed: 20
 --- !u!1 &1691930554200948032
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 642223385849455204}
   - component: {fileID: 2440030960265419927}
   - component: {fileID: 5091637839863245136}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

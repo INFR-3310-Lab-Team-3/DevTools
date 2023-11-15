@@ -16,11 +16,6 @@ public class SeekState : State_I
         this.target = t;
     }
 
-    public Vector3 SetTarget
-    {
-        set { this.target = value; }
-    }
-
     public void Execute(Enemy enemy)
     {
         enemy.SteerTowards(target);
@@ -34,11 +29,6 @@ public class FleeState : State_I
     public FleeState(Vector3 t)
     {
         this.target = t;
-    }
-
-    public Vector3 SetTarget
-    {
-        set { this.target = value; }
     }
 
     public void Execute(Enemy enemy)

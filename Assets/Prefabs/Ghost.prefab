@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 951694481676416980}
   - component: {fileID: 3030105697664376604}
   - component: {fileID: 4132623235691796052}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,8 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  wanderSpeed: 0.1
-  chaseSpeed: 0
+  speed: 15
 --- !u!1 &5071571428647081194
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,7 +76,7 @@ GameObject:
   - component: {fileID: 6481388239960673230}
   - component: {fileID: 8126637487181411645}
   - component: {fileID: 1707435061600387322}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
