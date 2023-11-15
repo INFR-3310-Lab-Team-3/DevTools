@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class manager : MonoBehaviour
+public class manager : Singleton_template<manager>
 {
     [SerializeField] private int maxZombie, maxGhost;
     [SerializeField] private Enemy ZombiePrefab;
     [SerializeField] private Enemy GhostPrefab;
     [SerializeField] private Transform[] spawnPoints;
 
-    private int currentZombie = 0;
-    private int currentGhost = 0;
+    public int currentZombie = 0;
+    public int currentGhost = 0;
 
     private void Update()
     {
