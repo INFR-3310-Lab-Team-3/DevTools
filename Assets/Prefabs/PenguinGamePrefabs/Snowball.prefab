@@ -63,10 +63,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496ecd08807bde94087bdf26d5bdca94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheck: {fileID: 4532947508053110918}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1 &7091459735975806001
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +135,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8705622070879962951}
-  m_Mesh: {fileID: 4711208715938537054, guid: 909a8f52c843fac4e89555400da51266, type: 3}
+  m_Mesh: {fileID: 4711208715938537054, guid: 70a4a2ae433d46a43a50b03737b7f00f, type: 3}
 --- !u!23 &6818700064655474091
 MeshRenderer:
   m_ObjectHideFlags: 0
