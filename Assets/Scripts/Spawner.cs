@@ -5,6 +5,12 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public static Spawner Instance { get; private set; }
+    ObjectPooler objectPooler;
+
+    private void Start()
+    {
+        objectPooler = ObjectPooler.Instance;
+    }
 
     private void Awake()
     {
@@ -20,8 +26,10 @@ public class Spawner : MonoBehaviour
     }
     public void SpawnEnemy(Enemy Prefab, Vector3 position)
     {
-        Enemy enemy = Instantiate(Prefab);
-        enemy.transform.position = position;
-        manager.Instance().enemies.Add(enemy);
+        objectPooler.SpawnFromPool("Zombie", transform.position, Quaternion.identity);
+        objectPooler.SpawnFromPool("Ghost", transform.position, Quaternion.identity);
+        //Enemy enemy = Instantiate(Prefab);
+        //enemy.transform.position = position;
+        //manager.Instance().enemies.Add(enemy);
     }
 }
