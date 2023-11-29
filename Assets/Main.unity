@@ -758,7 +758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xVal: 416.83463
   yVal: 252.26376
-  numDecimals: 2
+  numDecimals: 4
 --- !u!4 &411779875
 Transform:
   m_ObjectHideFlags: 0

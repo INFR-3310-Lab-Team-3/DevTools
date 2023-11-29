@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 public class PluginTester : MonoBehaviour
 {
     public float xVal = 416.8346237f;
-    public float yVal = 416.8346237f;
+    public float yVal = 232.8346237f;
     public int numDecimals = 2;
 
     private const string DLL_NAME = "FinalProject_DLL";
@@ -20,7 +20,6 @@ public class PluginTester : MonoBehaviour
     {
         int value;
         int factor;
-        int sign;
     }
 
     [DllImport(DLL_NAME)]
@@ -41,7 +40,7 @@ public class PluginTester : MonoBehaviour
             //Debug.Log("ID: " + GetID());
 
             SetXValue(xVal, numDecimals);
-            SetXValue(yVal, numDecimals);
+            SetYValue(yVal, numDecimals);
             Debug.Log("X: " + GetXValue());
             Debug.Log("Y: " + GetYValue());
         }
