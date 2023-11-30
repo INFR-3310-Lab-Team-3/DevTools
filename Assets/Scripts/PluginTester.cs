@@ -3,46 +3,30 @@ using System.Runtime.InteropServices;
 
 public class PluginTester : MonoBehaviour
 {
-    public float xVal = 416.8346237f;
-    public float yVal = 232.8346237f;
+    public float Val = 416.8346237f;
     public int numDecimals = 2;
 
     private const string DLL_NAME = "FinalProject_DLL";
 
-    [DllImport(DLL_NAME)]
-    private static extern int GetID();
-
-    [DllImport(DLL_NAME)]
-    private static extern void SetID(int id);
-
     [StructLayout(LayoutKind.Sequential)]
-    struct Fint
+    struct FintValue
     {
         int value;
         int factor;
     }
 
     [DllImport(DLL_NAME)]
-    private static extern float GetXValue();
-    [DllImport(DLL_NAME)]
-    private static extern float GetYValue();
+    private static extern float GetValue();
 
     [DllImport(DLL_NAME)]
-    private static extern void SetXValue(float v, int precision);
-    [DllImport(DLL_NAME)]
-    private static extern void SetYValue(float v, int precision);
+    private static extern void SetValue(float v, int precision);
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            //SetID(33);
-            //Debug.Log("ID: " + GetID());
-
-            SetXValue(xVal, numDecimals);
-            SetYValue(yVal, numDecimals);
-            Debug.Log("X: " + GetXValue());
-            Debug.Log("Y: " + GetYValue());
+            SetValue(Val, numDecimals);
+            Debug.Log("Val: " + GetValue());
         }
     }
 }
