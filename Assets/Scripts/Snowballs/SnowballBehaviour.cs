@@ -13,8 +13,7 @@ public class SnowballBehaviour : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
-        body.AddForce(((player.transform.position + new Vector3(0, 0, 10)) - this.transform.position).normalized * 100, ForceMode.Impulse);
-        //body.AddForce(transform.forward * 100, ForceMode.Impulse);
+        body.AddForce(((player.transform.position * 100) - this.transform.position).normalized * -100, ForceMode.Impulse);
         Destroy(this.gameObject, 8);
     }
 }
